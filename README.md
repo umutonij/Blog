@@ -1,4 +1,4 @@
-# Pitch
+# BLOG ONLINE APPLICATION
 
 This is an app that allows users to create,submit pitches based on categories. 27th-feb-2019
 

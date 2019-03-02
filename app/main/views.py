@@ -1,58 +1,58 @@
 from flask import render_template,request,redirect,url_for,abort
 from . import main
-from ..models import User,Pitch,Comment
+from ..models import User,Blog,Comment
 from .. import db,photos
-from .forms import UpdateProfile,PitchForm,CommentForm
+from .forms import UpdateProfile,BlogForm,CommentForm
 from flask_login import current_user,login_required
 import datetime
 
 
 @main.route('/')
 def index():
-    pickup = Pitch.get_pitches('pickup')
-    interview = Pitch.get_pitches('interview')
-    product = Pitch.get_pitches('product')
-    promotion = Pitch.get_pitches('promotion')
+    # pickup = Blog.get_blogs('pickup')
+    # interview = Blog.get_blogs('interview')
+    # product = Blog.get_blogs('product')
+    # promotion = Blog.get_blogs('promotion')
 
-    return render_template('index.html', title = 'Pitch App - Home', pickup = pickup, interview = interview, promotion = promotion, product = product)
+    return render_template('index.html', title = 'Blog App - Home')
 
-@main.route('/pitches/pickup')
+@main.route('/blogs/pickup')
 def pickup():
-    pitches = Pitch.get_pitches('pickup lines')
+    # blogs = Blog.get_blogs('pickup lines')
 
-    return render_template('pickup.html',pitches = pitches)
+    return render_template('pickup.html')
 
 
-@main.route('/pitches/interview')
+@main.route('/blogs/interview')
 def interview():
-    pitches = Pitch.get_pitches('interview')
+    # blogs = Blog.get_blogs('interview')
 
-    return render_template('interview.html',pitches = pitches)
+    return render_template('interview.html')
 
 
-@main.route('/pitches/product')
+@main.route('/blogs/product')
 def product():
-    pitches = Pitch.get_pitches('product')
+    # blogs = Blog.get_blogs('product')
 
-    return render_template('product.html',pitches = pitches)
+    return render_template('product.html')
 
 
-@main.route('/pitches/promotion')
+@main.route('/blogs/promotion')
 def promotion():
-    pitches = Pitch.get_pitches('promotion')
+    # blogs = Blog.get_blogs('promotion')
 
-    return render_template('promotion.html',pitches = pitches)
+    return render_template('promotion.html')
 
 
 @main.route('/user/<uname>')
 def profile(uname):
     user = User.query.filter_by(username = uname).first()
-    pitch_count = Pitch.count_pitches(uname)
+    blog_count = Blog.count_blogs(uname)
 
     if user is None:
         abort(404)
 
-    return render_template('profile/profile.html',user = user, pitches = pitch_count)
+    return render_template('profile/profile.html',user = user, blogs = blog_count)
 
 
 @main.route('/user/<uname>/update', methods = ['GET','POST'])
@@ -86,62 +86,62 @@ def update_pic(uname):
     return redirect(url_for('main.profile', uname = uname))
 
 
-@main.route('/pitch/new', methods = ['GET','POST'])
+@main.route('/blog/new', methods = ['GET','POST'])
 @login_required
-def new_pitch():
-    form = PitchForm()
+def new_blog():
+    form = BlogForm()
     if form.validate_on_submit():
         title = form.title.data
-        pitch = form.text.data
+        blog = form.text.data
         category = form.category.data
         
 
-        new_pitch = Pitch(pitch_title = title,pitch_content = pitch, category = category)
-        new_pitch.save_pitch()
+        new_blog = Pitch(blog_title = title,blog_content = blog, category = category)
+        new_blog.save_blog()
         return redirect(url_for('main.index'))
 
-    title = 'New Pitch'
-    return render_template('new_pitch.html', title = title, pitch_form = form)
+    title = 'New Blog'
+    return render_template('new_blog.html', title = title, blog_form = form)
 
-@main.route('/pitch/<int:id>', methods = ["GET","POST"])
+@main.route('/blog/<int:id>', methods = ["GET","POST"])
 def pitch(id):
-    pitch = Pitch.get_pitch(id)
-    posted_date = pitch.posted.strftime('%b %d, %Y')
+    blog = Blog.get_blog(id)
+    posted_date = blog.posted.strftime('%b %d, %Y')
     if request.args.get('like'):
-        pitch.likes += 1
+        blog.likes += 1
 
-        db.session.add(pitch)
+        db.session.add(blog)
         db.session.commit()
 
-        return redirect(url_for('.pitch', id = pitch.id))
+        return redirect(url_for('.blog', id = blog.id))
 
     elif request.args.get('dislike'):
-        pitch.dislikes += 1
+        blog.dislikes += 1
 
-        db.session.add(pitch)
+        db.session.add(blog)
         db.session.commit()
 
-        return redirect(url_for('.pitch', id = pitch.id))
+        return redirect(url_for('.blog', id = blog.id))
 
     form = CommentForm()
     if form.validate_on_submit():
         comment = form.text.data
 
-        new_comment = Comment(comment = comment, user = current_user, pitch_id = pitch)
+        new_comment = Comment(comment = comment, user = current_user, blog_id = blog)
 
         new_comment.save_comment()
 
-    comments = Comment.get_comments(pitch)
+    comments = Comment.get_comments(blog)
 
-    return render_template('pitch.html', pitch = pitch, comment_form = form,comments = comments, date = posted_date)
+    return render_template('blog.html', blog = blog, comment_form = form,comments = comments, date = posted_date)
 
-@main.route('/user/<uname>/pitches', methods = ['GET','POST'])
-def user_pitches(uname):
+@main.route('/user/<uname>/blogs', methods = ['GET','POST'])
+def user_blogs(uname):
     user = User.query.filter_by(username = uname).first()
-    pitches = Pitch.query.filter_by(user_id = user.id).all()
-    pitch_count = Pitch.count_pitches(uname)
+    blogs = Pitch.query.filter_by(user_id = user.id).all()
+    blog_count = Blog.count_blogs(uname)
 
-    return render_template('profile/pitches.html', user = user, pitches = pitches, pitches_count = pitch_count)
+    return render_template('profile/blogs.html', user = user, blogs = blogs, blogs_count = blog_count)
 @main.route('/newComment/<int:id>', methods = ['GET','POST'])
 @login_required
 def form(id):
@@ -154,7 +154,7 @@ def form(id):
     if form.validate_on_submit():
         comment = form.text.data
 
-        new_comment = Comment(comment = comment, user_id = current_user.id, pitch_id = id)
+        new_comment = Comment(comment = comment, user_id = current_user.id, blog_id = id)
 
         new_comment.save_comment()
         return redirect(url_for('.index'))

@@ -7,14 +7,14 @@
     <div class="row">
         <!-- <h3>{{pitch.pitch_title}}</h3> -->
         <hr>
-        <p>{{pitch.pitch_content}}</p>
+        <p>{{pitch.blog_content}}</p>
         <span>
-        <p>Posted on {{date}} by {{pitch.user.username| capitalize}}</p>
-        <a href="/pitch/{{pitch.id}}?like=1">
+        <p>Posted on {{date}} by {{blog.user.username| capitalize}}</p>
+        <a href="/pitch/{{blog.id}}?like=1">
             <i class="far fa-thumbs-up"></i>
-        </a>{{pitch.likes}} <a href="/pitch/{{pitch.id}}?dislike=1">
+        </a>{{pitch.likes}} <a href="/blog/{{blog.id}}?dislike=1">
             <i class="far fa-thumbs-down"></i>
-        </a>{{pitch.dislikes}}</span>
+        </a>{{blog.dislikes}}</span>
 
     </div>
     <div class="row">

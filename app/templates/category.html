@@ -2,11 +2,11 @@
 {% import 'macros.html' as macro%}
 
 {% block content %}
-<h3 class="text-center">{{category.name|upper}} PITCH</h3>
+<h3 class="text-center">{{category.name|upper}} Blog</h3>
 <hr>
 
-{% if pitches %}
+{% if blogs %}
 
-{% for pitch in pitches %}
-<h3>{{pitch.id}}</h3>
+{% for Blog in blogs %}
+<h3>{{blog.id}}</h3>
 {%else%}

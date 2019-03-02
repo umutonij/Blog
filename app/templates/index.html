@@ -9,12 +9,12 @@
 {% block content %}
     <div class="container" style="background-color:burlywood; padding:20px; margin-top:0px; padding-top:40px; padding-bottom:400px;">
         <div class="row" style="text-align:center; font-size:30px;">
-            <span style="font-size:40px; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Online Pitch Application</span>
+            <span style="font-size:40px; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Online Blog Application</span>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3"> 
                     <a href="{{url_for('main.interview')}}" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size:20px;">
                         <br>
-                        Inteview Pitches
+                        Inteview Blogs
                     </a>
                     <br>
                     <a href="{{url_for('main.pickup')}}" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size:20px;">
@@ -24,23 +24,23 @@
                     <br>
                     <a href="{{url_for('main.promotion')}}" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size:20px;">
                         <br>
-                        Promotion Pitches
+                        Promotion Blogs
                     </a>
                     <br>
                     <a href="{{url_for('main.product')}}" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size:20px;">
                         <br>
-                        Product Pitches
+                        Product Blogs
                     </a>
                     <br>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
             <div class="panel style="style="border: 3px solid #f2f2f2; padding:20px; margin-top:10px;">
-                <p style="font-family: Arial, Helvetica, sans-serif; font-size:20px;">Write your pitch in any of the categories to the left and let other user vote and comment on it. </p>
+                <p style="font-family: Arial, Helvetica, sans-serif; font-size:20px;">Write your blog in any of the categories to the left and let other user vote and comment on it. </p>
                 
                 <div style="text-align:center; font-size:20px;">
-                    <a href="{{url_for('main.new_pitch')}}">
+                    <a href="{{url_for('main.new_blog')}}">
                         <br>
-                        <span >Add a new Pitch</span>
+                        <span >Add a new Blog</span>
                     </a>
 
                 </div>
@@ -52,7 +52,7 @@
         <div class="all-pitches">
             <span style="color:brown;"></span>
                 <hr> 
-                {{macro.displayPitches(pitches)}}
+                {{macro.displayBlogs(blogs)}}
             
 
         </div>
