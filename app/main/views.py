@@ -9,40 +9,12 @@ import datetime
 
 @main.route('/')
 def index():
-    # pickup = Blog.get_blogs('pickup')
-    # interview = Blog.get_blogs('interview')
-    # product = Blog.get_blogs('product')
-    # promotion = Blog.get_blogs('promotion')
+    inkoko = Blog.query.all()
+    print(inkoko)
+    imishwi=Comment.query.all()
+    print(imishwi)
 
-    return render_template('index.html', title = 'Blog App - Home')
-
-@main.route('/blogs/pickup')
-def pickup():
-    # blogs = Blog.get_blogs('pickup lines')
-
-    return render_template('pickup.html')
-
-
-@main.route('/blogs/interview')
-def interview():
-    # blogs = Blog.get_blogs('interview')
-
-    return render_template('interview.html')
-
-
-@main.route('/blogs/product')
-def product():
-    # blogs = Blog.get_blogs('product')
-
-    return render_template('product.html')
-
-
-@main.route('/blogs/promotion')
-def promotion():
-    # blogs = Blog.get_blogs('promotion')
-
-    return render_template('promotion.html')
-
+    return render_template('index.html', title = 'Blog App - Home' ,inkoko=inkoko,imishwi=imishwi)
 
 @main.route('/user/<uname>')
 def profile(uname):
@@ -93,10 +65,10 @@ def new_blog():
     if form.validate_on_submit():
         title = form.title.data
         blog = form.text.data
-        category = form.category.data
+        # category = form.category.data
         
 
-        new_blog = Pitch(blog_title = title,blog_content = blog, category = category)
+        new_blog = Blog(blog_title = title,blog_content = blog)
         new_blog.save_blog()
         return redirect(url_for('main.index'))
 
@@ -104,7 +76,7 @@ def new_blog():
     return render_template('new_blog.html', title = title, blog_form = form)
 
 @main.route('/blog/<int:id>', methods = ["GET","POST"])
-def pitch(id):
+def blog(id):
     blog = Blog.get_blog(id)
     posted_date = blog.posted.strftime('%b %d, %Y')
     if request.args.get('like'):
@@ -138,14 +110,15 @@ def pitch(id):
 @main.route('/user/<uname>/blogs', methods = ['GET','POST'])
 def user_blogs(uname):
     user = User.query.filter_by(username = uname).first()
-    blogs = Pitch.query.filter_by(user_id = user.id).all()
+    blogs = Blog.query.filter_by(user_id = user.id).all()
     blog_count = Blog.count_blogs(uname)
 
     return render_template('profile/blogs.html', user = user, blogs = blogs, blogs_count = blog_count)
-@main.route('/newComment/<int:id>', methods = ['GET','POST'])
+@main.route('/newComment/', methods = ['GET','POST'])
 @login_required
-def form(id):
-    # pitch = Pitch.query.filter_by(id = id).first()
+def form():
+  
+    # pitch = Blog.query.filter_by(id = id).first()
     # if pitch is None:
     #     abort(404)
 
@@ -154,10 +127,19 @@ def form(id):
     if form.validate_on_submit():
         comment = form.text.data
 
-        new_comment = Comment(comment = comment, user_id = current_user.id, blog_id = id)
+        new_comment = Comment(comment = comment, user_id = current_user.id)
 
         new_comment.save_comment()
         return redirect(url_for('.index'))
    
 
     return render_template('new_coment.html', form = form)
+
+@main.route('/delete_blog/<id>', methods=['GET', 'POST'])
+def delete_blog(id):
+    blog = Blog.query.filter_by(id=id).first()
+
+    db.session.delete(blog)
+    db.session.commit()
+
+    return redirect(url_for('main.all_blogs'))
