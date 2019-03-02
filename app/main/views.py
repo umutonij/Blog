@@ -12,7 +12,6 @@ def index():
     inkoko = Blog.query.all()
     print(inkoko)
     imishwi=Comment.query.all()
-    print(imishwi)
 
     return render_template('index.html', title = 'Blog App - Home' ,inkoko=inkoko,imishwi=imishwi)
 
@@ -137,7 +136,7 @@ def form():
 
 @main.route('/delete_blog/<id>', methods=['GET', 'POST'])
 def delete_blog(id):
-    blog = Blog.query.filter_by(id=id).first()
+    blog = Delete.query.filter_by(id=id).first()
 
     db.session.delete(blog)
     db.session.commit()

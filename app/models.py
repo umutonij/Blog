@@ -92,6 +92,8 @@ class Comment(db.Model):
         comments = Comment.query.filter_by(blog_id=blog).all()
         return comments
 
+
+
 # class Review(db.Model):
 
 #     __tablename__ = 'reviews'
