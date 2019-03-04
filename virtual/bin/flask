@@ -1,4 +1,4 @@
-#!/home/wecode/Desktop/Pitch/virtual/bin/python
+#!/home/wecode/Blog/virtual/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
