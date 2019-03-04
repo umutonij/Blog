@@ -21,7 +21,7 @@ This is an app that allows users to create,submit blogs based on what they want.
 
 ## Installation steps
 
-* $ git clone https://github.com/umutonij/Blog.git
+* $ git clone https://blog-appi.herokuapp.com/
 * $ cd Blog
 * $ source virtual/bin/activate
 * $ ./start.sh
