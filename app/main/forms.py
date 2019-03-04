@@ -16,8 +16,3 @@ class CommentForm(FlaskForm):
     text = TextAreaField('Leave a Comment',validators = [Required()])
     submit = SubmitField('Add Comment')
 
-# class UpvoteForm(FlaskForm):
-#     '''
-#     Class to create a wtf form for upvoting a pitch
-#     '''
-#     submit = SubmitField('Upvote')

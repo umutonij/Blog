@@ -9,11 +9,11 @@ import datetime
 
 @main.route('/')
 def index():
-    inkoko = Blog.query.all()
-    print(inkoko)
-    imishwi=Comment.query.all()
+    blogs = Blog.query.all()
+    print(blogs)
+    # imishwi=Comment.query.all()
 
-    return render_template('index.html', title = 'Blog App - Home' ,inkoko=inkoko,imishwi=imishwi)
+    return render_template('index.html', title = 'Blog App - Home' ,blogs=blogs)
 
 @main.route('/user/<uname>')
 def profile(uname):
@@ -117,7 +117,7 @@ def user_blogs(uname):
 @login_required
 def form():
   
-    # pitch = Blog.query.filter_by(id = id).first()
+    # blog = Comment.query.filter_by(id = id).first()
     # if pitch is None:
     #     abort(404)
 
@@ -134,11 +134,27 @@ def form():
 
     return render_template('new_coment.html', form = form)
 
-@main.route('/delete_blog/<id>', methods=['GET', 'POST'])
+@main.route('/delete_blog/<int:id>', methods = ["GET","POST"])
 def delete_blog(id):
-    blog = Delete.query.filter_by(id=id).first()
+    blog = Blog.get_blog(id)
 
     db.session.delete(blog)
     db.session.commit()
 
-    return redirect(url_for('main.all_blogs'))
+    return redirect(url_for('.index'))
+@main.route('/viewcomment/<comment>', methods = ['GET','POST'])
+def checking(comment):
+    byose = Comment.query.all()
+    viewcomment = Comment.query.filter_by(comment=comment).all()
+    
+
+    return render_template('viewcomments.html', form = form,viewcomment=viewcomment,byose=byose)
+
+@main.route('/delete_viewcomment/<int:id>', methods = ["GET","POST"])
+def delete_viewcomment(id):
+    viewcomment = Comment.get_comment(id)
+
+    db.session.delete(comment)
+    db.session.commit()
+
+    return redirect(url_for('.viewcomment'))
