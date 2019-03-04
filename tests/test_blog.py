@@ -1,17 +1,16 @@
 import unittest
-from app.models import Pitch  
-Blog = Blog
+from app.models import Blog
 
-class PitchTest(unittest.TestCase):
-    '''
-    Test Class to test the behaviour of the Blog class
-    '''
+class PostModelTest(unittest.TestCase):
 
     def setUp(self):
-        '''
-        Set up method that will run before every Test
-        '''
-        self.new_blog = Blog(133,'killed by excelence')
+        self.new_blog= Blog(id = 1, blog_title = 'Python', blog_content = 'Programming language that helps to build application')
+
 
     def test_instance(self):
-        self.assertTrue(isinstance(self.new_blog,Blog))
+        self.assertTrue(isinstance(self.new_blog, Blog))
+
+    
+
+if __name__ == '__main__':
+    unittest.main()
