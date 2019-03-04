@@ -1,6 +1,6 @@
 import unittest
 from app.models import Pitch  
-Pitch = Pitch
+Blog = Blog
 
 class PitchTest(unittest.TestCase):
     '''
